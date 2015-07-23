@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     on_generateButton_clicked();
     QTime time;
-    qsrand(time.msecsTo(QTime::currentTime()));
+    qsrand(time.msecsTo(QTime::currentTime())); // srand init
 }
 
 MainWindow::~MainWindow()
@@ -16,31 +16,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-QString MainWindow::generate(int chars = 8, bool nums = true, bool spec = true)
+QString MainWindow::generate(int chars = 8, bool nums = true, bool spec = false)
 {
     QString password;
-    QChar ch;
     for(int i = 0; i < chars; i++)
     {
-        switch (qrand()%4)
+        switch (qrand()%4) // Случайно выбираем добавление маленькой буквы, большой буквы, цифры или символа
         {
         case 0:
-            password.append(qrand()%25+65);
+            password.append(qrand()%25+65); // Добавляем строчную букву
             break;
         case 1:
-            if(nums)
-               password.append(qrand()%10+48);
+            if(nums) // Если нужно использовать цифры
+               password.append(qrand()%10+48); // Добавляем цифру
             else
-               --i;
+               --i; // Повторяем итерацию
             break;
         case 2:
-            password.append(qrand()%25+97);
+            password.append(qrand()%25+97); // Добавляем прописную букву
             break;
         case 3:
-            if(spec)
-                password.append(qrand()%15+33);
+            if(spec) // Если нужно использовать спец-символы
+                password.append(qrand()%15+33); // Добавляем символ
             else
-                --i;
+                --i; // Повторяем итерацию
             break;
         }
     }
